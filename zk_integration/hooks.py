@@ -1,12 +1,14 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from . import __version__ as app_version
 
 app_name = "zk_integration"
-app_title = "Zk Integration"
-app_publisher = "zk_integration"
-app_description = "zk_integration"
+app_title = "ZK"
+app_publisher = "Peter"
+app_description = "Zk Device Integration"
 app_icon = "octicon octicon-file-directory"
 app_color = "grey"
-app_email = "zk_integration"
+app_email = "eng.peter.maged@gmail.com"
 app_license = "MIT"
 
 # Includes in <head>
@@ -59,12 +61,6 @@ app_license = "MIT"
 # before_install = "zk_integration.install.before_install"
 # after_install = "zk_integration.install.after_install"
 
-# Uninstallation
-# ------------
-
-# before_uninstall = "zk_integration.uninstall.before_uninstall"
-# after_uninstall = "zk_integration.uninstall.after_uninstall"
-
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
@@ -76,11 +72,11 @@ app_license = "MIT"
 # Permissions evaluated in scripted ways
 
 # permission_query_conditions = {
-#	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
+# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
 # }
 #
 # has_permission = {
-#	"Event": "frappe.desk.doctype.event.event.has_permission",
+# 	"Event": "frappe.desk.doctype.event.event.has_permission",
 # }
 
 # DocType Class
@@ -88,7 +84,7 @@ app_license = "MIT"
 # Override standard doctype classes
 
 # override_doctype_class = {
-#	"ToDo": "custom_app.overrides.CustomToDo"
+# 	"ToDo": "custom_app.overrides.CustomToDo"
 # }
 
 # Document Events
@@ -96,33 +92,40 @@ app_license = "MIT"
 # Hook on document methods and events
 
 # doc_events = {
-#	"*": {
-#		"on_update": "method",
-#		"on_cancel": "method",
-#		"on_trash": "method"
+# 	"*": {
+# 		"on_update": "method",
+# 		"on_cancel": "method",
+# 		"on_trash": "method"
 #	}
 # }
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-#	"all": [
-#		"zk_integration.tasks.all"
-#	],
-#	"daily": [
-#		"zk_integration.tasks.daily"
-#	],
-#	"hourly": [
-#		"zk_integration.tasks.hourly"
-#	],
-#	"weekly": [
-#		"zk_integration.tasks.weekly"
-#	]
-#	"monthly": [
-#		"zk_integration.tasks.monthly"
-#	]
-# }
+scheduler_events = {
+"cron": {
+		"0/5 * * * *": [
+			"zk_integration.zk.doctype.device_log.device_log.execute"
+		]
+	},
+	"all": [
+		# "zk_integration.tasks.all"
+	],
+	"daily": [
+		"zk_integration.zk.doctype.zk_device.zk_device.get_active_device_logs",
+		"zk_integration.zk.doctype.device_log.device_log.create_employee_checkin"
+	],
+	"hourly": [
+     "zk_integration.cron.update_employee_name_fro_checkin"
+		# "zk_integration.tasks.hourly"
+	],
+	"weekly": [
+		# "zk_integration.tasks.weekly"
+	],
+	"monthly": [
+		# "zk_integration.tasks.monthly"
+	]
+}
 
 # Testing
 # -------
@@ -133,58 +136,17 @@ app_license = "MIT"
 # ------------------------------
 #
 # override_whitelisted_methods = {
-#	"frappe.desk.doctype.event.event.get_events": "zk_integration.event.get_events"
+# 	"frappe.desk.doctype.event.event.get_events": "zk_integration.event.get_events"
 # }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
-#	"Task": "zk_integration.task.get_dashboard_data"
+# 	"Task": "zk_integration.task.get_dashboard_data"
 # }
 
 # exempt linked doctypes from being automatically cancelled
 #
 # auto_cancel_exempted_doctypes = ["Auto Repeat"]
-
-# Request Events
-# ----------------
-# before_request = ["zk_integration.utils.before_request"]
-# after_request = ["zk_integration.utils.after_request"]
-
-# Job Events
-# ----------
-# before_job = ["zk_integration.utils.before_job"]
-# after_job = ["zk_integration.utils.after_job"]
-
-# User Data Protection
-# --------------------
-
-user_data_fields = [
-	{
-		"doctype": "{doctype_1}",
-		"filter_by": "{filter_by}",
-		"redact_fields": ["{field_1}", "{field_2}"],
-		"partial": 1,
-	},
-	{
-		"doctype": "{doctype_2}",
-		"filter_by": "{filter_by}",
-		"partial": 1,
-	},
-	{
-		"doctype": "{doctype_3}",
-		"strict": False,
-	},
-	{
-		"doctype": "{doctype_4}"
-	}
-]
-
-# Authentication and authorization
-# --------------------------------
-
-# auth_hooks = [
-#	"zk_integration.auth.validate"
-# ]
 
